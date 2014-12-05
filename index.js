@@ -10,7 +10,6 @@ var events = require('events'),
     fs = require('fs'),
     path = require('path'),
     util = require('util'),
-    colors = require('colors'),
     common = require("winston").common,
     Transport = require("winston").Transport,
     isWritable = require('isstream').isWritable,
@@ -141,8 +140,9 @@ WinstonSumoLogic.prototype.formatOutput = function(d, level, msg, meta) {
   }
 
   output = d;
-  output += ' ' + level;
+  //output += ' ' + level;
   output += ' [' + msg + ']';
+  meta.level = level;
   output += ' ' + JSON.stringify(meta) + '\n';
 
   return output;
@@ -540,5 +540,8 @@ WinstonSumoLogic.prototype._lazyDrain = function () {
     });
   }
 };
+
+// Register with winston
+winston.transports["WinstonSumoLogic"] = WinstonSumoLogic;
 
 module.exports = WinstonSumoLogic;
